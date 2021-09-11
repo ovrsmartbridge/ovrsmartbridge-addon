@@ -40,7 +40,10 @@ ha_wsapi.on('message', (message) => {
             console.log('Will forward message to HMD: ' + notify_message);
             wss.clients.forEach(function each(client) {
                 if (client.readyState === WebSocket.OPEN) {
-                    client.send(notify_message);
+                    client.send(JSON.stringify({
+                        type: "notify",
+                        message: notify_message
+                    }));
                 }
             });
             break;
@@ -62,23 +65,29 @@ wss.on('connection', function connection(ws, req) {
 
         // console.log(message.toString());
 
-        axios.post('http://supervisor/core/api/states/' + 'binary_sensor.ovrsmartbridge_hmd_proximity_sensor', {
-            state: message.toString(),
-            attributes: {
-                device_class: "moving",
-                friendly_name: "OVRSB HMD Proximity Sensor"
-            }
-        }, {
-            headers: {
-                'Authorization': `Bearer ${SUPERVISOR_TOKEN}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then((response) => {
-            // console.log(response.data);
-        }, (error) => {
-            console.error(error);
-        });
+        const message_json = JSON.parse(message);
+
+        if (message_json.type == "evrevent" && message_json.context == "proximity_sensor")
+        {
+            axios.post('http://supervisor/core/api/states/' + 'binary_sensor.ovrsmartbridge_hmd_proximity_sensor', {
+                state: message_json.state,
+                attributes: {
+                    device_class: "moving",
+                    friendly_name: "OVRSB HMD Proximity Sensor"
+                }
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${SUPERVISOR_TOKEN}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                // console.log(response.data);
+            }, (error) => {
+                console.error(error);
+            });
+        }
+
 
     });
 
