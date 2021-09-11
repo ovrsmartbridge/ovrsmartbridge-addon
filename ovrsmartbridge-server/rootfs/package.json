@@ -1,6 +1,6 @@
 {
-  "name": "ovrsmartbridge-ha-addon",
-  "version": "0.1.0",
+  "name": "ovrsmartbridge-server",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
