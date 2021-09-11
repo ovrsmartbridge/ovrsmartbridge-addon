@@ -1,0 +1,15 @@
+{
+  "name": "OVRSmartBridge-Server",
+  "version": "0.1.0",
+  "slug": "ovrsmartbridge-server",
+  "description": "Addon for OpenVR Sensors and Notifications",
+  "url": "https://github.com/ovrsmartbridge/ovrsmartbridge-ha-addon",
+  "init": false,
+  "options": {},
+  "homeassistant_api": true,
+  "schema": {},
+  "arch": ["aarch64", "amd64", "armhf", "armv7", "i386"],
+  "ports": {
+    "17825/tcp": 17825
+  }
+}
