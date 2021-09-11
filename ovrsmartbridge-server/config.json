@@ -1,6 +1,6 @@
 {
   "name": "OVRSmartBridge-Server",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "slug": "ovrsmartbridge-server",
   "description": "Addon for OpenVR Sensors and Notifications",
   "url": "https://github.com/ovrsmartbridge/ovrsmartbridge-ha-addon",
