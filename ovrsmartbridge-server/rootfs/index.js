@@ -6,8 +6,8 @@ const SUPERVISOR_TOKEN = process.env.SUPERVISOR_TOKEN;
 
 const port = 17825;
 
-console.log('setup entities - setting initial off state on startup');
-updateEntityState('binary_sensor.ovrsmartbridge_hmd_proximity_sensor', 'off', "moving", "OVRSB HMD Proximity Sensor");
+// console.log('setup entities - setting initial off state on startup');
+// updateEntityState('binary_sensor.ovrsmartbridge_hmd_proximity_sensor', 'off', "moving", "OVRSB HMD Proximity Sensor");
 
 const wss = new WebSocket.Server({ port: port });
 
@@ -62,6 +62,8 @@ setInterval(() => {
 
             case 'auth_ok':
                 console.log('authentication with homeassistant ok');
+                console.log('setup entities - setting initial off state on startup');
+                updateEntityState('binary_sensor.ovrsmartbridge_hmd_proximity_sensor', 'off', "moving", "OVRSB HMD Proximity Sensor");
                 console.log('subscribing to event "ovrsmartbridge_notify" (18)');
                 ha_gateway_ws.send(JSON.stringify({
                     id: 18,
