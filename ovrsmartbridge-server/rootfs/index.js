@@ -64,6 +64,7 @@ setInterval(() => {
                 console.log('authentication with homeassistant ok');
                 console.log('setup entities - setting initial off state on startup');
                 updateEntityState('binary_sensor.ovrsmartbridge_hmd_proximity_sensor', 'off', "moving", "OVRSB HMD Proximity Sensor");
+                updateEntityState('binary_sensor.ovrsmartbridge_client_connected', 'off', "connectivity", "OVRSB Client Connected");
                 console.log('subscribing to event "ovrsmartbridge_notify" (18)');
                 ha_gateway_ws.send(JSON.stringify({
                     id: 18,
@@ -143,6 +144,7 @@ wss.on('connection', function connection(ws, req) {
 
     const ip = req.socket.remoteAddress;
     console.log(`New connection from ${ip}`);
+    updateEntityState('binary_sensor.ovrsmartbridge_client_connected', 'on', "connectivity", "OVRSB Client Connected");
     console.log(`Firing event "ovrsmartbridge_client_connected"`);
     axios.post('http://supervisor/core/api/events/ovrsmartbridge_client_connected', {
         // 
@@ -174,6 +176,7 @@ wss.on('connection', function connection(ws, req) {
 
     ws.on('close', (data) => {
         console.log(`Connection lost ${ip}`);
+        updateEntityState('binary_sensor.ovrsmartbridge_client_connected', 'off', "connectivity", "OVRSB Client Connected");
         console.log(`Firing event "ovrsmartbridge_client_disconnected"`);
         axios.post('http://supervisor/core/api/events/ovrsmartbridge_client_disconnected', {
             // 
